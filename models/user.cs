@@ -7,6 +7,8 @@ namespace ConsoleBankApplication.models
        public string Name{get;set;} 
        public int AccNo{get;set;} 
        public int Amount{get;set;}
+       public float Balance{get;set;}
+       
 
     }
 }

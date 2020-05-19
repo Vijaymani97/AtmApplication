@@ -81,7 +81,7 @@ namespace ConsoleBankApplication
 
                              
                              //
-                             if(User1 != null)                            
+                             if(User1.Name != null)                            
                              {
                                 
                                 
@@ -89,6 +89,7 @@ namespace ConsoleBankApplication
                              
                                 
                                   showMenu2();
+
                                   menu2 = Convert.ToInt32( Console.ReadLine());
                                   
                                                                                       
@@ -105,14 +106,24 @@ namespace ConsoleBankApplication
                                                 Transfer();
                                                 break;
                                             case 4:
-                                                CheckBalance(User1);
+                                                User User3=this.accountdao.CheckBalance(User1);
                                                 break;    
                                             case 5:
                                                 Transaction();
                                                 break; 
                                             case 6:
-                                                ChangePin();
+    
+
+
+                                                //ChangePin
+                                                Console.Write("Enter New Pin : ");
+                                                int NewPin = Convert.ToInt32(Console.ReadLine());
+                                                User User2=this.accountdao.ChangePin(User1,NewPin);
                                                 break; 
+
+
+                                               
+                                               
 
                                             case 0:
                                                 Console.WriteLine("  logout succesfully.");
@@ -142,8 +153,8 @@ namespace ConsoleBankApplication
 
          } 
          public void Deposit()
-         {
-           /*  
+         { /*
+            
         Console.Write("Enter Account Number : ");
         int AccNo = Convert.ToInt32(Console.ReadLine());
         Console.Write("Enter Amount : ");
@@ -172,8 +183,8 @@ namespace ConsoleBankApplication
 
         Conn.Close();    
 
-            
-         */
+            */
+         
 
          }
 
@@ -189,8 +200,8 @@ namespace ConsoleBankApplication
          }
 
          public  void CheckBalance(User currentuser)
-         {  
-             String connStr = "Data Source=DESKTOP-07ACERG;Initial Catalog=ATM;Integrated Security=True";
+         {  /*
+           String connStr = "Data Source=DESKTOP-07ACERG;Initial Catalog=ATM;Integrated Security=True";
             SqlConnection conn = new SqlConnection(connStr);
             
              string selectQuery = "SELECT AvailBal FROM AccDetails where CusID = "+ currentuser.UserID;
@@ -203,15 +214,15 @@ namespace ConsoleBankApplication
              while (reader.Read())
              {
             
-                BalanceCheck[0] =  reader.GetInt32(0);              
+                User2 =  reader.GetInt32(0);              
                 Console.WriteLine(reader.GetName(0));
              }
                             
              conn.Close();
-             Console.WriteLine("your Balancs is : "+BalanceCheck[0]);   
+             Console.WriteLine("your Balancs is : "+BalanceCheck[0]);    */
              
-
-         }
+  
+         } 
 
          public static void Transaction()
          {

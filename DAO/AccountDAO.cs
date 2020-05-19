@@ -43,5 +43,43 @@ namespace ConsoleBankApplication.DAO
             return user1;
 
         }
+
+        public User CheckBalance(User ID)
+        {
+            string checkQuery = "SELECT AvailBal FROM AccDetails where CusID = "+ ID.UserID;
+                             
+            SqlCommand selectCommand = new SqlCommand(checkQuery, conn);
+ 
+            
+            conn.Open();
+            SqlDataReader reader = selectCommand.ExecuteReader();
+            User User3=new User();
+            while (reader.Read())
+            {
+        
+                User3.Balance=reader.GetFloat(0);             
+ 
+            }
+            conn.Close();
+            Console.WriteLine("your Balancs is :"+User3.Balance);
+            return User3;
+ 
+        }
+        public User ChangePin(User ID,int newpin)
+        {
+            string changeQuery = "UPDATE  Login SET Pin="+newpin+" where CusID = "+ ID.UserID;
+                             
+            SqlCommand updateCommand = new SqlCommand(changeQuery, conn);
+ 
+            
+            conn.Open();
+            SqlDataReader reader = updateCommand.ExecuteReader();
+            User user2=new User();
+            
+            conn.Close();
+            Console.WriteLine( " your pin has been changed sucessfully");
+            return user2;
+ 
+        }
     }
 }

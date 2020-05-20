@@ -15,8 +15,8 @@ namespace ConsoleBankApplication
 
         static void Main(string[] args)
         {
-           Bank b1 = new Bank();
-           b1.MainAtm();
+           Bank obj = new Bank();
+           obj.Atmapp();
            Console.WriteLine("Hello world .....");
 
 

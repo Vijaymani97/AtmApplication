@@ -21,19 +21,17 @@ namespace ConsoleBankApplication
      }
      int Pin = 0;   
          //login menu
-         public static void showMenu1()
+         public static void LoginMenu()
          {
-             Console.WriteLine(" ------------------------");
-             Console.WriteLine("|   C ATM Main Menu      |");
-             Console.WriteLine("|                        |");
-             Console.WriteLine("| 1. Login to ATM card   |");
-             Console.WriteLine("| 2. Exit                |");
-             Console.WriteLine("|                        |");
-             Console.WriteLine(" ------------------------");
+             Console.WriteLine("    ATM Main Menu     ");
+             Console.WriteLine("                       ");
+             Console.WriteLine(" 1. Login              ");
+             Console.WriteLine(" 2. Exit               ");
+             Console.WriteLine("                       ");
              Console.Write("Enter your option: ");            
          }
         //main menu
-         public static void showMenu2()
+         public static void MainMenu()
          {
              Console.WriteLine(" ------------------------------------------");
              Console.WriteLine("|          C ATM BANK LIMITED              |");
@@ -51,14 +49,14 @@ namespace ConsoleBankApplication
          }   
  
         //main operation funtion
-        public void  MainAtm()
+        public void  Atmapp()
          {
            
                       
 
 
             
-                 showMenu1();
+                 LoginMenu();
                  
             
                  menu1 = Convert.ToInt32( Console.ReadLine());
@@ -84,11 +82,11 @@ namespace ConsoleBankApplication
                              if(User1.Name != null)                            
                              {
                                 
-                                
+                                Console.WriteLine("Hi "+User1.Name+ "!!!");
 
                              
                                 
-                                  showMenu2();
+                                  MainMenu();
 
                                   menu2 = Convert.ToInt32( Console.ReadLine());
                                   
@@ -97,13 +95,31 @@ namespace ConsoleBankApplication
                                         {
                                             
                                             case 1:
-                                                Deposit();
+                                                   //deposit
+                                                Console.Write("Enter Account Number : ");
+                                                int AccNum = Convert.ToInt32(Console.ReadLine());
+                                                Console.Write("Enter Deposit Amount : ");
+                                                decimal DAmount = Convert.ToDecimal(Console.ReadLine());
+                                                User User4=this.accountdao.Deposit(AccNum,DAmount);
                                                 break;
                                             case 2:
-                                                Withdraw();
+                                            //withdraw
+                                                Console.Write("Enter Account Number : ");
+                                                int AccNum1= Convert.ToInt32(Console.ReadLine());
+                                                Console.Write("Enter Withdraw Amount : ");
+                                                decimal WAmount = Convert.ToDecimal(Console.ReadLine());
+                                                User User5=this.accountdao.Withdraw(AccNum1,WAmount);
                                                 break;
                                             case 3:
-                                                Transfer();
+                                            //transfer
+                                       /*     Console.Write("Enter Sender Account Number : ");
+                                            int SenderAccNum= Convert.ToInt32(Console.ReadLine());
+                                            Console.Write("Enter Receiver Account Number : ");
+                                            int ReciverAccNum= Convert.ToInt32(Console.ReadLine());
+                                            Console.Write("Enter Transfer Amount : ");
+                                            decimal TAmount = Convert.ToDecimal(Console.ReadLine());
+                                             User User6=this.accountdao.Withdraw(SenderAccNum,ReciverAccNum,TAmount);
+                                        */    
                                                 break;
                                             case 4:
                                                 User User3=this.accountdao.CheckBalance(User1);
@@ -112,18 +128,11 @@ namespace ConsoleBankApplication
                                                 Transaction();
                                                 break; 
                                             case 6:
-    
-
-
                                                 //ChangePin
                                                 Console.Write("Enter New Pin : ");
                                                 int NewPin = Convert.ToInt32(Console.ReadLine());
                                                 User User2=this.accountdao.ChangePin(User1,NewPin);
                                                 break; 
-
-
-                                               
-                                               
 
                                             case 0:
                                                 Console.WriteLine("  logout succesfully.");
@@ -149,91 +158,17 @@ namespace ConsoleBankApplication
                             break;
                     }
                 
-                     Console.WriteLine("Thank you for using C ATM Bank. ");
+                    
 
          } 
-         public void Deposit()
-         { /*
-            
-        Console.Write("Enter Account Number : ");
-        int AccNo = Convert.ToInt32(Console.ReadLine());
-        Console.Write("Enter Amount : ");
-        int Amount = Convert.ToInt32(Console.ReadLine());
-        int DAmount;
-
-        String connStr = "Data Source=DESKTOP-07ACERG;Initial Catalog=ATM;Integrated Security=True";
-        SqlConnection conn = new SqlConnection(connStr);
-        string selectQuery="SELECT AvailBal FROM Accdetails where AccNo="+AccNo;
-        SqlCommand selectCommand = new SqlCommand(selectQuery,conn);
-
-       int[] Balance = new int[1];          
-        conn.Open();
-        SqlDataReader reader = selectCommand.ExecuteReader();
-        while (reader.Read())
-        {
-    
-        Balance[0] = reader.GetInt32(0);              
-        Console.WriteLine(reader.GetName(0));
-        }
-        DAmount = Amount + Balance[0];
-
-        string updatequery = "UPDATE AccDetails SET AvailBal="+WAmount+" WHERE AccNo="+AccNo;
-        SqlCommand updatecommand = new SqlCommand(updatequery, conn);
-        
-
-        Conn.Close();    
-
-            */
          
-
-         }
-
-         public static void Withdraw()
-         {
-
-         }
-
-         public static void Transfer()
-         {
-
-
-         }
-
-         public  void CheckBalance(User currentuser)
-         {  /*
-           String connStr = "Data Source=DESKTOP-07ACERG;Initial Catalog=ATM;Integrated Security=True";
-            SqlConnection conn = new SqlConnection(connStr);
-            
-             string selectQuery = "SELECT AvailBal FROM AccDetails where CusID = "+ currentuser.UserID;
-             Console.WriteLine(selectQuery);
-             SqlCommand selectCommand = new SqlCommand(selectQuery, conn);
-
-             int[] BalanceCheck = new int[1];          
-             conn.Open();
-             SqlDataReader reader = selectCommand.ExecuteReader();
-             while (reader.Read())
-             {
-            
-                User2 =  reader.GetInt32(0);              
-                Console.WriteLine(reader.GetName(0));
-             }
-                            
-             conn.Close();
-             Console.WriteLine("your Balancs is : "+BalanceCheck[0]);    */
-             
-  
-         } 
 
          public static void Transaction()
          {
 
          }
 
-         public static void ChangePin()
-         {
-
-
-         }
+        
 
     }
 

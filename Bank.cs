@@ -95,14 +95,14 @@ namespace ConsoleBankApplication
                                                 break;
                                             case 3:
                                             //transfer
-                                    /*            Console.Write("Enter Sender Account Number : ");
+                                                Console.Write("Enter Sender Account Number : ");
                                                 int SenderAccNum= Convert.ToInt32(Console.ReadLine());
                                                 Console.Write("Enter Receiver Account Number : ");
                                                 int ReceiverAccNum= Convert.ToInt32(Console.ReadLine());
                                                 Console.Write("Enter Transfer Amount : ");
                                                 decimal TAmount = Convert.ToDecimal(Console.ReadLine());
                                                 User User6=this.accountdao.Transfer(SenderAccNum,ReceiverAccNum,TAmount);
-                                     */           
+                                                Console.WriteLine("your Balancs(Receiver) is :"+User6.Balance);
                                                 break;
                                             case 4:
                                                 User User3=this.accountdao.CheckBalance(User1);

@@ -106,7 +106,8 @@ namespace ConsoleBankApplication.DAO
             
          }  
 
-         public User Transfer(int SenderAccNum,int ReceiverAccNum,decimal TAmount)
+   /*  public User Transfer(int SenderAccNum,int ReceiverAccNum,decimal TAmount)
+        
          {  
         //Sender Side
         string selectQuery="SELECT AvailBal FROM Accdetails where AccNo="+SenderAccNum;
@@ -130,9 +131,7 @@ namespace ConsoleBankApplication.DAO
                     
                     conn.Close();    
                     Console.WriteLine("your Balancs is :"+User6.Balance);
-                        
-
-                    }
+                   }
                  else 
                      {
                         Console.WriteLine("You Haven't Sufficient Balance");
@@ -153,48 +152,47 @@ namespace ConsoleBankApplication.DAO
             SqlCommand updatecmd = new SqlCommand(updateqry, conn);
             conn.Close();  
             return User6;
-         }    
+         }    */
 
-     /*  publicTransaction[] Transactions(UserID)
+       public TransDetails[] Trans(int AccNo)
          {
 
-            stringcountQuery = "SELECT  COUNT(*) FROM Transactions WHERE UserID = "+ ID.UserID;
-            SqliteCommandcountCommand = newSqliteCommand(countQuery, conn);         
+            string countQuery = "SELECT  COUNT(*) FROM TransactionDetails  WHERE AccNo = "+ AccNo;
+            SqlCommand countCommand = new SqlCommand(countQuery, conn);         
             conn.Open();
 
-            Int64num2=(Int64)countCommand.ExecuteScalar();
+            int num2=(int)countCommand.ExecuteScalar();
 
-            Transaction[] transaction1= newTransaction[num2];
+            TransDetails[] trans1= new TransDetails[num2];
             
-            stringtranQuery = "SELECT  TranID,AccountNO,TranType,TranAmount,Balance FROM Transactions WHERE UserID = "+ ID.UserID;                           
-            SqliteCommandselectCommand = newSqliteCommand(tranQuery, conn);    
-            SqliteDataReaderreader1 = selectCommand.ExecuteReader();
+            string tranQuery = "SELECT  TransID,AccNo,TransType,TransAmount FROM Transactions WHERE AccNo = "+ AccNo;                           
+            SqlCommand selectCommand = new SqlCommand(tranQuery, conn);    
+            SqlDataReader reader1 = selectCommand.ExecuteReader();
 
-            inti=0;
-            Console.WriteLine("tranID AccountNO Trantype TranAmount Balance");
+            int i=0;
+            Console.WriteLine("transID AccNO Transtype TransAmount ");
             while (reader1.Read())
-                            {
-            Transactiontran2=newTransaction();
-            tran2.TranID=reader1.GetInt32(0); 
-            tran2.AccountNO=reader1.GetInt32(1);
-            tran2.TranType=reader1.GetString(2);  
-            tran2.TranAmount=reader1.GetInt32(3);  
-            tran2.Balance=reader1.GetInt32(4); 
+                 {
+            TransDetails trans2=new TransDetails();
+            trans2.TransID=reader1.GetInt32(0); 
+            trans2.AccNo=reader1.GetInt32(1);
+            trans2.TransType=reader1.GetString(2);  
+            trans2.TransAmount=reader1.GetDecimal(3);  
+           // trans2.TransDate=reader1.GetDate(4); 
 
-            transaction1[i] = tran2;
-            Console.WriteLine( "  "+tran2.TranID+"     "+tran2.AccountNO+"    "+ tran2.TranType+"      "+tran2.TranAmount+"      "+ tran2.Balance );
+            trans1[i] = trans2;
+            Console.WriteLine( "  "+trans2.TransID+" \t"+trans2.AccNo+" \t"+ trans2.TransType+" \t "+trans2.TransAmount);
 
-            i++;            
-            
-                            }
-
+            i++;  
+                 }          
+           
             conn.Close();
             //
-            returntransaction1;
+            return trans1;
 
 
         }   
- */
+ 
 
 
         public User ChangePin(User ID,int newpin)

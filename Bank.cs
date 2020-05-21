@@ -95,20 +95,24 @@ namespace ConsoleBankApplication
                                                 break;
                                             case 3:
                                             //transfer
-                                                Console.Write("Enter Sender Account Number : ");
+                                    /*            Console.Write("Enter Sender Account Number : ");
                                                 int SenderAccNum= Convert.ToInt32(Console.ReadLine());
                                                 Console.Write("Enter Receiver Account Number : ");
                                                 int ReceiverAccNum= Convert.ToInt32(Console.ReadLine());
                                                 Console.Write("Enter Transfer Amount : ");
                                                 decimal TAmount = Convert.ToDecimal(Console.ReadLine());
                                                 User User6=this.accountdao.Transfer(SenderAccNum,ReceiverAccNum,TAmount);
-                                                
+                                     */           
                                                 break;
                                             case 4:
                                                 User User3=this.accountdao.CheckBalance(User1);
                                                 break;    
                                             case 5:
-                                                Transaction();
+                                              //  Transaction;
+                                                Console.Write("Enter Account Number : ");
+                                                int AccNo= Convert.ToInt32(Console.ReadLine());
+                                              TransDetails[] trans3=this.accountdao.Trans(AccNo);
+
                                                 break; 
                                             case 6:
                                                 //ChangePin
@@ -143,18 +147,10 @@ namespace ConsoleBankApplication
 
          } 
          
-
-         public static void Transaction()
-         {
-
-         }
+    }
+}
 
         
 
-    }
 
-
-
-
-
-}
+      

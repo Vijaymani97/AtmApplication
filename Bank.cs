@@ -51,49 +51,30 @@ namespace ConsoleBankApplication
         //main operation funtion
         public void  Atmapp()
          {
-           
-                      
-
-
-            
                  LoginMenu();
-                 
-            
                  menu1 = Convert.ToInt32( Console.ReadLine());
-                
- 
                      switch (menu1)
                      {
+                         //Login
                          case 1:
                             String connStr = "Data Source=DESKTOP-07ACERG;Initial Catalog=ATM;Integrated Security=True";
                             SqlConnection conn = new SqlConnection(connStr);
-                            
-
-
-                             Console.Write("Enter ATM UserID: ");
+                            Console.Write("Enter ATM UserID: ");
                              UserID = Convert.ToInt32(Console.ReadLine());
                              Console.Write("Enter  PIN: ");
                              Pin = Convert.ToInt32(Console.ReadLine());
                              User User1=this.accountdao.Login(UserID,Pin);
-
-
-                             
-                             //
+                        //      DataTime time=DataTime.Now;
+                        //     Console.WriteLine(time.ToString("yyyy--mm-dd h:mm:ss tt"));
                              if(User1.Name != null)                            
                              {
-                                
                                 Console.WriteLine("Hi    "+User1.Name+ "!!!");
-
-                             
-                                
-                                  MainMenu();
-
-                                  menu2 = Convert.ToInt32( Console.ReadLine());
-                                  
-                                                                                      
-                                        switch (menu2)
+                               
+                                MainMenu();
+                                menu2 = Convert.ToInt32( Console.ReadLine());
+                                     switch (menu2)
                                         {
-                                            
+                                            //Operations
                                             case 1:
                                                    //deposit
                                                 Console.Write("Enter Account Number : ");
@@ -114,14 +95,14 @@ namespace ConsoleBankApplication
                                                 break;
                                             case 3:
                                             //transfer
-                                       /*     Console.Write("Enter Sender Account Number : ");
-                                            int SenderAccNum= Convert.ToInt32(Console.ReadLine());
-                                            Console.Write("Enter Receiver Account Number : ");
-                                            int ReciverAccNum= Convert.ToInt32(Console.ReadLine());
-                                            Console.Write("Enter Transfer Amount : ");
-                                            decimal TAmount = Convert.ToDecimal(Console.ReadLine());
-                                             User User6=this.accountdao.Withdraw(SenderAccNum,ReciverAccNum,TAmount);
-                                        */    
+                                                Console.Write("Enter Sender Account Number : ");
+                                                int SenderAccNum= Convert.ToInt32(Console.ReadLine());
+                                                Console.Write("Enter Receiver Account Number : ");
+                                                int ReceiverAccNum= Convert.ToInt32(Console.ReadLine());
+                                                Console.Write("Enter Transfer Amount : ");
+                                                decimal TAmount = Convert.ToDecimal(Console.ReadLine());
+                                                User User6=this.accountdao.Transfer(SenderAccNum,ReceiverAccNum,TAmount);
+                                                
                                                 break;
                                             case 4:
                                                 User User3=this.accountdao.CheckBalance(User1);
@@ -147,9 +128,7 @@ namespace ConsoleBankApplication
 
                             else 
                             {
-                                
-
-                                Console.WriteLine("Invalid PIN.");
+                               Console.WriteLine("Invalid PIN.");
                             }
                             
                             break;

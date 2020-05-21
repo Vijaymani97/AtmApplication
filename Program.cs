@@ -17,8 +17,7 @@ namespace ConsoleBankApplication
         {
            Bank obj = new Bank();
            obj.Atmapp();
-           Console.WriteLine("Hello world .....");
-
+           
 
             
         }

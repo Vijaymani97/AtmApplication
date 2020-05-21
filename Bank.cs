@@ -82,7 +82,7 @@ namespace ConsoleBankApplication
                              if(User1.Name != null)                            
                              {
                                 
-                                Console.WriteLine("Hi "+User1.Name+ "!!!");
+                                Console.WriteLine("Hi    "+User1.Name+ "!!!");
 
                              
                                 
@@ -101,6 +101,7 @@ namespace ConsoleBankApplication
                                                 Console.Write("Enter Deposit Amount : ");
                                                 decimal DAmount = Convert.ToDecimal(Console.ReadLine());
                                                 User User4=this.accountdao.Deposit(AccNum,DAmount);
+                                                Console.WriteLine("your Balancs is :"+User4.Balance);
                                                 break;
                                             case 2:
                                             //withdraw
@@ -109,6 +110,7 @@ namespace ConsoleBankApplication
                                                 Console.Write("Enter Withdraw Amount : ");
                                                 decimal WAmount = Convert.ToDecimal(Console.ReadLine());
                                                 User User5=this.accountdao.Withdraw(AccNum1,WAmount);
+                                                 Console.WriteLine("your Balancs is :"+User5.Balance);
                                                 break;
                                             case 3:
                                             //transfer

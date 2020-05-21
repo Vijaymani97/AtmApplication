@@ -70,27 +70,27 @@ namespace ConsoleBankApplication.DAO
          public User Deposit(int AccNum,decimal DAmount)
          {  
         
-        string selectQuery="SELECT AvailBal FROM Accdetails where AccNo="+AccNum;
-        SqlCommand selectCommand = new SqlCommand(selectQuery,conn);
+            string selectQuery="SELECT AvailBal FROM Accdetails where AccNo="+AccNum;
+            SqlCommand selectCommand = new SqlCommand(selectQuery,conn);
 
-       User User4=new User();         
-        conn.Open();
-        SqlDataReader reader = selectCommand.ExecuteReader();
-        while (reader.Read())
-        {
-    
-        User4.Balance = reader.GetDecimal(0);              
-       
-        }
-           User4.Balance= DAmount + User4.Balance ;
+            User User4=new User();         
+            conn.Open();
+            SqlDataReader reader = selectCommand.ExecuteReader();
+            while (reader.Read())
+            {
 
-        string updatequery = "UPDATE AccDetails SET AvailBal=" +User4.Balance + "WHERE AccNo=" +AccNum;
-        SqlCommand updatecommand = new SqlCommand(updatequery, conn);
-        
+                 User4.Balance = reader.GetDecimal(0);              
 
-        conn.Close();    
-        Console.WriteLine("your Balancs is :"+User4.Balance);
-            return User4;
+            }
+            Console.WriteLine("Before"+User4.Balance);
+            User4.Balance= DAmount + User4.Balance  ;
+           Console.WriteLine("After"+User4.Balance);
+
+            string updatequery = "UPDATE AccDetails SET AvailBal=" +User4.Balance + "WHERE AccNo=" +AccNum;
+            SqlCommand updatecommand = new SqlCommand(updatequery, conn);
+            conn.Close();    
+          
+             return User4;
  
             
          }   
@@ -118,7 +118,7 @@ namespace ConsoleBankApplication.DAO
                     
 
                     conn.Close();    
-                    Console.WriteLine("your Balancs is :"+User5.Balance);
+                   
                         
 
                     }

@@ -54,7 +54,7 @@ namespace ConsoleBankApplication.DAO
 
          public User Deposit(int AccNum,decimal DAmount)
          {  
-            string selectQuery="SELECT AvailBal FROM AccDetails where AccNo="+AccNum;
+            string selectQuery="SELECT AvailBal,AccNo FROM AccDetails where AccNo="+AccNum;
             SqlCommand selectCommand = new SqlCommand(selectQuery,conn);
                     
             conn.Open();
@@ -62,7 +62,8 @@ namespace ConsoleBankApplication.DAO
             SqlDataReader reader = selectCommand.ExecuteReader();
             if(reader.Read())
             {
-            User4.Balance = reader.GetDecimal(0);              
+            User4.Balance = reader.GetDecimal(0);    
+            User4.AccNum = reader.GetInt32(1);          
             }
        //     Console.WriteLine("Before"+User4.Balance);
             User4.Balance= DAmount + User4.Balance  ;
@@ -72,20 +73,24 @@ namespace ConsoleBankApplication.DAO
             string updatequery = "UPDATE AccDetails SET AvailBal=" +User4.Balance + "WHERE AccNo=" +AccNum;
             SqlCommand updatecommand = new SqlCommand(updatequery, conn);
             int RowCount = updatecommand.ExecuteNonQuery();
-
-             //conn.Open();
-          /*  DateTime now=DateTime.Now;
-           
-            Console.WriteLine(now);
-            string insertQuery = "INSERT INTO TransaDetails (TransID,AccNO,TransType,TranAmount,) Values ("+ID.UserID+","+account2.AccountNO+",'D','"+now+"',"+amt+","+Totamount+")";           
-            
-            SqlCommand insertCommand = new SqlCommand(insertQuery, conn);
-            insertCommand.ExecuteNonQuery();  
             conn.Close();
- 
-            Console.WriteLine( " your transaction is sucessfully");
-         */          
+            conn.Open();
+             Console.WriteLine("Before Insert");
+            DateTime now=DateTime.Now;
+            Console.WriteLine("time  "+now);
+       //     string insertQuery = "INSERT INTO TransactionDetails (TransID,AccNo,TransType,TransAmount,TransDate) Values (100,"+AccNum+",'D',"+DAmount+","+now+",)";           
+            string insertQuery = "INSERT INTO TransactionDetails (AccNo,TransType,TransAmount,TransDate) Values (@AccNo,@TransType,@TransAmount,@TransDate)";
+                
+            SqlCommand insertcommand = new SqlCommand(insertQuery, conn);
+          //  insertcommand.Parameters.AddWithValue("@TransID", 200);
+            insertcommand.Parameters.AddWithValue("@AccNo", AccNum);
+            insertcommand.Parameters.AddWithValue("@TransType", 'D');
+            insertcommand.Parameters.AddWithValue("@TransAmount", DAmount);
+            insertcommand.Parameters.AddWithValue("@TransDate", now);
+            insertcommand.ExecuteNonQuery();  
             conn.Close();    
+            Console.WriteLine("after Insert");
+           // conn.Close();    
             return User4;  
          }   
 
@@ -107,13 +112,29 @@ namespace ConsoleBankApplication.DAO
              }
              if(User5.Balance >= WAmount)
                     {
-                        User5.Balance=  User5.Balance - WAmount ;
-                        conn.Open();
-                         string updatequery = "UPDATE AccDetails SET AvailBal=" +User5.Balance + "WHERE AccNo=" +AccNum1;
-                         SqlCommand updatecommand = new SqlCommand(updatequery, conn);
-                          int RowCount = updatecommand.ExecuteNonQuery();                  
+                            User5.Balance=  User5.Balance - WAmount ;
+                            conn.Open();
+                            string updatequery = "UPDATE AccDetails SET AvailBal=" +User5.Balance + "WHERE AccNo=" +AccNum1;
+                            SqlCommand updatecommand = new SqlCommand(updatequery, conn);
+                            int RowCount = updatecommand.ExecuteNonQuery();    
+                            conn.Close();
+                            conn.Open();
+                            Console.WriteLine("Before Insert");
+                            DateTime now=DateTime.Now;
+                    //     string insertQuery = "INSERT INTO TransactionDetails (TransID,AccNo,TransType,TransAmount,TransDate) Values (100,"+AccNum+",'D',"+DAmount+","+now+",)";           
+                            string insertQuery = "INSERT INTO TransactionDetails (AccNo,TransType,TransAmount,TransDate) Values (@AccNo,@TransType,@TransAmount,@TransDate)";
+                                
+                            SqlCommand insertcommand = new SqlCommand(insertQuery, conn);
+                        //    insertcommand.Parameters.AddWithValue("@TransID", 300);
+                            insertcommand.Parameters.AddWithValue("@AccNo", AccNum1);
+                            insertcommand.Parameters.AddWithValue("@TransType", 'W');
+                            insertcommand.Parameters.AddWithValue("@TransAmount", WAmount);
+                            insertcommand.Parameters.AddWithValue("@TransDate", now);
+                            insertcommand.ExecuteNonQuery();  
+                            conn.Close();    
+                            Console.WriteLine("after Insert");              
 
-                        conn.Close();    
+                           
                     }
              else 
                     {
@@ -185,23 +206,26 @@ namespace ConsoleBankApplication.DAO
 
             TransDetails[] trans1= new TransDetails[num];
             
-            string tranQuery = "SELECT  TransID,AccNo,TransType,TransAmount FROM TransactionDetails WHERE AccNo = "+ AccNo;                           
+            string tranQuery = "SELECT  TransID,AccNo,TransType,TransAmount ,TransDate FROM TransactionDetails WHERE AccNo = "+ AccNo;                           
             SqlCommand selectCommand = new SqlCommand(tranQuery, conn);    
             SqlDataReader reader1 = selectCommand.ExecuteReader();
             int i=0;
-            Console.WriteLine("TransID   AccNO   TransType     TransAmount ");
+            Console.WriteLine("TransID   AccNO   TransType     TransAmount            TransDate ");
             while (reader1.Read())
                  {
-            TransDetails trans2=new TransDetails();
-            trans2.TransID=reader1.GetInt32(0); 
-            trans2.AccNo=reader1.GetInt32(1);
-            trans2.TransType=reader1.GetString(2);  
-            trans2.TransAmount=reader1.GetDecimal(3);  
-           // trans2.TransDate=reader1.GetDate(4); 
+                    TransDetails trans2=new TransDetails();
+                    trans2.TransID=reader1.GetInt32(0); 
+                    trans2.AccNo=reader1.GetInt32(1);
+                    trans2.TransType=reader1.GetString(2);  
+                    trans2.TransAmount=reader1.GetDecimal(3);  
+                    trans2.TransDate=reader1.GetDateTime(4); 
+		    
 
-            trans1[i] = trans2;
-            Console.WriteLine( "  "+trans2.TransID+" \t"+trans2.AccNo+" \t"+ trans2.TransType+" \t "+trans2.TransAmount);
-            i++;  
+                    trans1[i] = trans2;
+             //       Console.WriteLine(trans2.TransID);
+             //       Console.WriteLine(trans2.TransDate);
+                    Console.WriteLine( "  "+trans2.TransID+" \t"+trans2.AccNo+" \t"+ trans2.TransType+" \t "+trans2.TransAmount+" \t "+trans2.TransDate);
+                    i++;  
                  }          
            
             conn.Close();

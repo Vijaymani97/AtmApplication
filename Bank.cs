@@ -33,6 +33,7 @@ namespace ConsoleBankApplication
         //main menu
          public static void MainMenu()
          {
+             DateTime now=DateTime.Now;
              Console.WriteLine(" ------------------------------------------");
              Console.WriteLine("|          C ATM BANK LIMITED              |");
              Console.WriteLine("|           Customer Banking               |");        
@@ -43,8 +44,10 @@ namespace ConsoleBankApplication
              Console.WriteLine("|    5. Display Account Transaction Log    |");
              Console.WriteLine("|    6. Change Pin                         |");
              Console.WriteLine("|                                          |");
-             Console.WriteLine("|    0.Save & Exit                         |");
+             Console.WriteLine("|    0.LogOut                              |");
              Console.WriteLine(" ------------------------------------------");
+             Console.WriteLine("Login Time:      "+now);
+             Console.WriteLine("                                           ");
              Console.Write("Enter your option: ");
          }   
  
@@ -128,6 +131,8 @@ namespace ConsoleBankApplication
                                                 Console.WriteLine("Invalid Option Entered.");
                                                 break;
                                         }
+                                        Console.WriteLine("\n");
+                                         Atmapp();
                                     }
 
                             else 

@@ -1,3 +1,4 @@
+using System;
 namespace ConsoleBankApplication.models
 {
     public class TransDetails
@@ -6,7 +7,7 @@ namespace ConsoleBankApplication.models
             public int TransID{get;set;} 
             public string TransType{get;set;} 
             public decimal TransAmount{get;set;} 
-       //     public date TransDate;
+            public DateTime TransDate{get;set;}
             
 
     }

@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using System.Data;
 using System.Data.SqlClient;
+using System.Collections.Generic;
 //using System.Data;
 //using Microsoft.Data.Sqlite;
 using ConsoleBankApplication.DAO;
@@ -67,6 +68,7 @@ namespace ConsoleBankApplication
                              Console.Write("Enter  PIN: ");
                              Pin = Convert.ToInt32(Console.ReadLine());
                              User User1=this.accountdao.Login(UserID,Pin);
+                             Console.Beep();
                         //      DataTime time=DataTime.Now;
                         //     Console.WriteLine(time.ToString("yyyy--mm-dd h:mm:ss tt"));
                              if(User1.Name != null)                            
@@ -84,8 +86,10 @@ namespace ConsoleBankApplication
                                                 int AccNum = Convert.ToInt32(Console.ReadLine());
                                                 Console.Write("Enter Deposit Amount : ");
                                                 decimal DAmount = Convert.ToDecimal(Console.ReadLine());
-                                                User User4=this.accountdao.Deposit(AccNum,DAmount);
+                                                User User4=this.accountdao.Deposit(User1,AccNum,DAmount);
+                                                
                                                 Console.WriteLine("your Balancs is :"+User4.Balance);
+                                                Console.Beep();
                                                 break;
                                             case 2:
                                             //withdraw
@@ -95,6 +99,7 @@ namespace ConsoleBankApplication
                                                 decimal WAmount = Convert.ToDecimal(Console.ReadLine());
                                                 User User5=this.accountdao.Withdraw(AccNum1,WAmount);
                                                  Console.WriteLine("your Balancs is :"+User5.Balance);
+                                                 Console.Beep();
                                                 break;
                                             case 3:
                                             //transfer
@@ -106,6 +111,7 @@ namespace ConsoleBankApplication
                                                 decimal TAmount = Convert.ToDecimal(Console.ReadLine());
                                                 User User6=this.accountdao.Transfer(SenderAccNum,ReceiverAccNum,TAmount);
                                                 Console.WriteLine("your Balancs(Receiver) is :"+User6.Balance);
+                                                Console.Beep();
                                                 break;
                                             case 4:
                                                 User User3=this.accountdao.CheckBalance(User1);
@@ -115,13 +121,14 @@ namespace ConsoleBankApplication
                                                 Console.Write("Enter Account Number : ");
                                                 int AccNo= Convert.ToInt32(Console.ReadLine());
                                               TransDetails[] trans3=this.accountdao.Trans(AccNo);
-
+                                              Console.Beep();
                                                 break; 
                                             case 6:
                                                 //ChangePin
                                                 Console.Write("Enter New Pin : ");
                                                 int NewPin = Convert.ToInt32(Console.ReadLine());
                                                 User User2=this.accountdao.ChangePin(User1,NewPin);
+                                                Console.Beep();
                                                 break; 
 
                                             case 0:

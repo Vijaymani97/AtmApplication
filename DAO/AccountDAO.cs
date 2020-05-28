@@ -3,6 +3,9 @@ using ConsoleBankApplication.models;
 using System.Linq;
 using System.Data;
 using System.Data.SqlClient;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Configuration.Json;
+using Microsoft.Extensions.Configuration.EnvironmentVariables;
 //using Microsoft.Data.Sqlite;
 namespace ConsoleBankApplication.DAO
 {
@@ -11,10 +14,16 @@ namespace ConsoleBankApplication.DAO
        // string DataSource="DESKTOP-07ACERG";
         
         SqlConnection conn;
+       // string connStr;
         
         public AccountDAO()
         {
-            String connStr = "Data Source=DESKTOP-07ACERG;Initial Catalog=ATM;Integrated Security=True";
+            IConfiguration Configuration = new ConfigurationBuilder()
+            .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+            .AddEnvironmentVariables()
+            .Build();            
+            var section= Configuration.GetSection("Connstring");
+            var connStr = section.Value;
             conn = new SqlConnection(connStr);
             
         }
@@ -52,11 +61,12 @@ namespace ConsoleBankApplication.DAO
             return User3;
         }
 
-         public User Deposit(int AccNum,decimal DAmount)
+         public User Deposit(User ID,int AccNum,decimal DAmount)
          {  
-            string selectQuery="SELECT AvailBal,AccNo FROM AccDetails where AccNo="+AccNum;
+            string selectQuery="SELECT AvailBal,AccNo FROM AccDetails where AccNo=" + AccNum +" and CusID=" + ID.UserID;
             SqlCommand selectCommand = new SqlCommand(selectQuery,conn);
-                    
+            Console.WriteLine("User id "+ID.UserID);       
+            Console.WriteLine("Acc num "+AccNum); 
             conn.Open();
             User User4=new User();
             SqlDataReader reader = selectCommand.ExecuteReader();
@@ -68,21 +78,18 @@ namespace ConsoleBankApplication.DAO
        //     Console.WriteLine("Before"+User4.Balance);
             User4.Balance= DAmount + User4.Balance  ;
          //   Console.WriteLine("After"+User4.Balance);
-           conn.Close();
-           conn.Open();
-            string updatequery = "UPDATE AccDetails SET AvailBal=" +User4.Balance + "WHERE AccNo=" +AccNum;
+            conn.Close();
+            conn.Open();
+            string updatequery = "UPDATE AccDetails SET AvailBal=" +User4.Balance + "WHERE AccNo=" +AccNum +" and CusID=" + ID.UserID;
             SqlCommand updatecommand = new SqlCommand(updatequery, conn);
             int RowCount = updatecommand.ExecuteNonQuery();
             conn.Close();
             conn.Open();
-             Console.WriteLine("Before Insert");
+            Console.WriteLine("Before Insert");
             DateTime now=DateTime.Now;
             Console.WriteLine("time  "+now);
-       //     string insertQuery = "INSERT INTO TransactionDetails (TransID,AccNo,TransType,TransAmount,TransDate) Values (100,"+AccNum+",'D',"+DAmount+","+now+",)";           
             string insertQuery = "INSERT INTO TransactionDetails (AccNo,TransType,TransAmount,TransDate) Values (@AccNo,@TransType,@TransAmount,@TransDate)";
-                
             SqlCommand insertcommand = new SqlCommand(insertQuery, conn);
-          //  insertcommand.Parameters.AddWithValue("@TransID", 200);
             insertcommand.Parameters.AddWithValue("@AccNo", AccNum);
             insertcommand.Parameters.AddWithValue("@TransType", 'D');
             insertcommand.Parameters.AddWithValue("@TransAmount", DAmount);
@@ -119,11 +126,8 @@ namespace ConsoleBankApplication.DAO
                             int RowCount = updatecommand.ExecuteNonQuery();    
                             conn.Close();
                             conn.Open();
-                            Console.WriteLine("Before Insert");
-                            DateTime now=DateTime.Now;
-                    //     string insertQuery = "INSERT INTO TransactionDetails (TransID,AccNo,TransType,TransAmount,TransDate) Values (100,"+AccNum+",'D',"+DAmount+","+now+",)";           
+                            DateTime now=DateTime.Now; 
                             string insertQuery = "INSERT INTO TransactionDetails (AccNo,TransType,TransAmount,TransDate) Values (@AccNo,@TransType,@TransAmount,@TransDate)";
-                                
                             SqlCommand insertcommand = new SqlCommand(insertQuery, conn);
                         //    insertcommand.Parameters.AddWithValue("@TransID", 300);
                             insertcommand.Parameters.AddWithValue("@AccNo", AccNum1);
@@ -132,9 +136,7 @@ namespace ConsoleBankApplication.DAO
                             insertcommand.Parameters.AddWithValue("@TransDate", now);
                             insertcommand.ExecuteNonQuery();  
                             conn.Close();    
-                            Console.WriteLine("after Insert");              
-
-                           
+                                                      
                     }
              else 
                     {
@@ -173,12 +175,10 @@ namespace ConsoleBankApplication.DAO
                  {
                       Console.WriteLine("You Haven't Sufficient Balance");
                  }   
-            //conn.Close();
             conn.Open();
             //Receiver Side
             string selectQry="SELECT AvailBal FROM Accdetails where AccNo="+ReceiverAccNum;
-            SqlCommand selectCmd = new SqlCommand(selectQry,conn);
-         //  User User6=new User();         
+            SqlCommand selectCmd = new SqlCommand(selectQry,conn);       
             SqlDataReader reader1 = selectCmd.ExecuteReader();
             if (reader1.Read())
             {

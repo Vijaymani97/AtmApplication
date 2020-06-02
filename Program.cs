@@ -2,26 +2,19 @@
 using System.Linq;
 using System.Data;
 using System.Data.SqlClient;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Configuration.Json;
-using Microsoft.Extensions.Configuration.EnvironmentVariables; 
-
-
 namespace ConsoleBankApplication
 {
-    
-    class Program
+        public static class Program
     {
-
-        static void Main(string[] args)
+       public static void Main(string[] args)
         {
-                
+            if (args is null)
+            {
+                throw new ArgumentNullException(nameof(args));
+            }
 
-           Bank obj = new Bank();
-           obj.Atmapp();
-           
-
-            
+            Bank obj = new Bank();
+            obj.Atmapp();
         }
     }
 }
